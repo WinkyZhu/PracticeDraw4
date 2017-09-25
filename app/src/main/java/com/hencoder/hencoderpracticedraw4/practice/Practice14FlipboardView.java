@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -15,11 +16,15 @@ import android.view.animation.LinearInterpolator;
 
 import com.hencoder.hencoderpracticedraw4.R;
 
+/**
+ * 分上线两部分分别绘制
+ */
 public class Practice14FlipboardView extends View {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Bitmap bitmap;
     Camera camera = new Camera();
     int degree;
+    private RectF rectF;
     ObjectAnimator animator = ObjectAnimator.ofInt(this, "degree", 0, 180);
 
     public Practice14FlipboardView(Context context) {
@@ -73,13 +78,18 @@ public class Practice14FlipboardView extends View {
         int y = centerY - bitmapHeight / 2;
 
         canvas.save();
+        canvas.clipRect(x, y, x + bitmapWidth, y + bitmapHeight / 2);
+        canvas.drawBitmap(bitmap, x, y, paint);
+        canvas.restore();
 
+        canvas.save();
         camera.save();
         camera.rotateX(degree);
         canvas.translate(centerX, centerY);
         camera.applyToCanvas(canvas);
         canvas.translate(-centerX, -centerY);
         camera.restore();
+        canvas.clipRect(x, y + bitmapHeight / 2, x + bitmapWidth, y + bitmapHeight);
 
         canvas.drawBitmap(bitmap, x, y, paint);
         canvas.restore();

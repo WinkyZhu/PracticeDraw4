@@ -54,6 +54,9 @@ public class Sample13CameraRotateHittingFaceView extends View {
         camera.setLocation(0, 0, newZ);
     }
 
+    /**
+     * 如何让视图不可见的时候就
+     */
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();

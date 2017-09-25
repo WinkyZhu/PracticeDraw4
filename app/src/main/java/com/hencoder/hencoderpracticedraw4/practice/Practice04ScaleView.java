@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
@@ -37,8 +38,12 @@ public class Practice04ScaleView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        canvas.drawBitmap(bitmap, point1.x, point1.y, paint);
+        //要先执行scale
+        canvas.save();
+        canvas.scale(0.5f, 1, point2.x + bitmap.getWidth() / 2, point2.y);
         canvas.drawBitmap(bitmap, point2.x, point2.y, paint);
+        canvas.restore();
+        canvas.drawBitmap(bitmap, point1.x, point1.y, paint);
+
     }
 }
